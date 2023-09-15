@@ -25,16 +25,16 @@ class Design(models.Model):
                             error_messages={'unique': "Такая заявка уже существует!"})
     info = models.CharField(max_length=50, help_text='Введите описание', verbose_name='Описание',
                             null=True)
-    image = models.ImageField(upload_to='images/',  verbose_name='Изображение', null=False,
-                              blank=False)
+    image = models.ImageField(upload_to='images/',  verbose_name='Изображение', null=False, blank=False)
+    ready_image = models.ImageField(upload_to='images/',  verbose_name='Готовый дизайн', null=True, blank=False)
     date = models.DateField(default=datetime.today(), null=True, verbose_name='Дата')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь',
                              null=True, blank=True,
                              to_field='id')
     # blank=False определяет, будет ли поле обязательным в формах.
-    comment = models.TextField(max_length=400, verbose_name='Комментарий', null=False, blank=False)
+    comment = models.TextField(max_length=400, verbose_name='Комментарий', null=True, blank=False)
     # on_delete=models.CASCADE = если категория поста будет удалена, то удалятся и посты
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True,
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False,
                                  verbose_name='Категории')
     NEW = 'new'
     LOAD = 'load'

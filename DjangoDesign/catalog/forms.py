@@ -79,6 +79,22 @@ class PostFormUpdateNew(forms.ModelForm):
         fields = ['status', 'category']
 
 
+class PostFormUpdateWork(forms.ModelForm):
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image:
+            if image.size > 2 * 1024 * 1024:
+                raise ValidationError("Вес картинки больше 2мб")
+            return image
+        else:
+            raise ValidationError("Не возможно обработать картинку")
+
+    class Meta:
+        model = Design
+        fields = ['comment']
+
+
 class PostFormUpdateReady(forms.ModelForm):
 
     def clean_image(self):
@@ -92,7 +108,7 @@ class PostFormUpdateReady(forms.ModelForm):
 
     class Meta:
         model = Design
-        fields = ['image', 'comment', 'status']
+        fields = ['ready_image', 'comment']
 
 
 class CategoryForm(forms.ModelForm):
