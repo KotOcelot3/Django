@@ -42,7 +42,11 @@
       {% for design in design_list %}
       <div class="design">
         <p>Название: {{ design.name }}</p>
-        <img src="{{ design.image.url}}" alt="connect" style="max-height:150px">
+          {% if design.ready_image %}
+            <img src="{{ design.ready_image.url}}" alt="connect" style="max-height:150px">
+          {% else %}
+            <img src="{{ design.image.url}}" alt="connect" style="max-height:150px">
+          {% endif %}
         <p>Описание: {{ design.info }}</p>
         <p>Cтатус: {{ design.get_status_display }}</p>
         <p>Категория: {{ design.category }}</p>
