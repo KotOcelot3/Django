@@ -47,17 +47,27 @@
     {% for design in filter.qs %}
       <div class="design">
           <p>Название: {{ design.name }}</p>
-          <img src="{{ design.image.url}}" alt="connect" style="max-height:150px">
+          {% if design.ready_image %}
+            <img src="{{ design.ready_image.url}}" alt="connect" style="max-height:150px">
+          {% else %}
+            <img src="{{ design.image.url}}" alt="connect" style="max-height:150px">
+          {% endif %}
            <p class="text">Описание: {{ design.info }}</p>
           <p>Cтатус: {{ design.get_status_display }}</p>
           <p>Категория: {{ design.category}}</p>
-          <p>Комментарий: {{ design.comment }}</p>
+          {%if design.comment %}
+            <p>Комментарий: {{ design.comment }}</p>
+          {% else %}
+            <p>Коментарий: Отсутcтвует коментарий</p>
+          {% endif %}
           <p>Дата: {{ design.date }} </p>
           <p>User: {{ design.user }} </p>
           <p>{{ category.id }}</p>
           <p><a href="{% url 'delete_post' design.id %}"><strong>Удалить заявку?</strong></a></p>
           {% if design.status == "new" %}
             <p><a href="{% url 'update_form_new' design.id %}"><strong>Изменить заявку?</strong></a></p>
+          {% elif design.status == "load" %}
+            <p><a href="{% url 'update_form_work' design.id %}"><strong>Изменить заявку?</strong></a></p>
           {% else %}
             <p><a
                     href="{% url 'update_form_ready' design.id %}"><strong>Изменить
